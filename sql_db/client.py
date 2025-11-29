@@ -19,7 +19,6 @@ def get_messages():
 
 def get_test_visit():
     visit = Visit(
-        id_visit = 1,
         id_animal = 1,
         owner_name ="Jan Nowak",
         pet_name = "Burek",
