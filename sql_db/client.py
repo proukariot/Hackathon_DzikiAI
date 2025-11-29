@@ -32,7 +32,7 @@ def get_test_visit():
         interview_description = "opis_wywiadu",
         treatment_description = "opis_badania",
         applied_medicines = "zastosowane leki",
-        "recommendation" = "zalecenia",
+        recommendation = "zalecenia",
     )
 
     return visit
