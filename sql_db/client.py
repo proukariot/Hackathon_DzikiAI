@@ -39,9 +39,10 @@ def get_test_visit():
 
 def get_visits():
     r = requests.get(f"{SERVER_URL}/all_visits")
-    print(f"visits: {r.json()}")
-    print(f"status: {r.status_code}")
+    return r.json()
 
+def get_animals():
+    r = requests.get(f"{SERVER_URL}/all_animals")
     return r.json()
 
 
