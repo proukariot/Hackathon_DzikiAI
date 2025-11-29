@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 import datetime
+from sql_db.client import get_visits
+from sql_db.visit import Visit
 
 st.title("Vet Assistant")
 
