@@ -2,7 +2,7 @@ import streamlit as st
 import os
 import datetime
 from sql_db.client import get_animals
-from LLM.transcription import save_transcription
+from llm.transcription import save_transcription
 
 
 st.title("Vet Assistant")
@@ -18,11 +18,15 @@ else:
     selected_owner = st.selectbox("Wybierz właściciela", owner_names)
 
     # Zwierzęta właściciela
-    animals_for_owner = [row for row in animals_data if row["owner_name"] == selected_owner]
+    animals_for_owner = [
+        row for row in animals_data if row["owner_name"] == selected_owner
+    ]
 
     # --- SELECT: Zwierzę ---
     animal_name_to_obj = {row["pet_name"]: row for row in animals_for_owner}
-    selected_animal_name = st.selectbox("Wybierz zwierzę", list(animal_name_to_obj.keys()))
+    selected_animal_name = st.selectbox(
+        "Wybierz zwierzę", list(animal_name_to_obj.keys())
+    )
 
     selected_animal = animal_name_to_obj.get(selected_animal_name)
 
@@ -49,7 +53,7 @@ else:
                 <p><strong>Waga:</strong> {selected_animal['waga']} kg</p>
             </div>
             """,
-            unsafe_allow_html=True
+            unsafe_allow_html=True,
         )
 
     # --- Nagrywanie wizyty ---
