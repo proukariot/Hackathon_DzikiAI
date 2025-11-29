@@ -19,16 +19,19 @@ def get_messages():
 
 def get_test_visit():
     visit = Visit(
-        imię="1",
-        rasa="rasa",
-        płec="płec",
-        wiek=0,
-        maść="maść",
-        waga=0,
-        opis_wywiadu="opis_wywiadu",
-        opis_badania="opis_badania",
-        zastosowane_leki="zastosowane_leki",
-        zalecenia="zalecenia",
+        id_animal = 1,
+        owner_name ="Jan Nowak",
+        pet_name = "Burek",
+        breed = "mieszany",
+        species = "pies",
+        age = 7,
+        sex = "samiec",
+        coat = "rudy",
+        weight = "10",
+        interview_description = "opis_wywiadu",
+        treatment_description = "opis_badania",
+        applied_medicines = "zastosowane leki",
+        recommendation = "zalecenia",
     )
 
     return visit

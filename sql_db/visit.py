@@ -2,27 +2,33 @@ from pydantic import BaseModel
 
 
 class Visit(BaseModel):
-    imię: str
-    rasa: str
-    płec: str
-    wiek: int
-    maść: str
-    waga: int
-    opis_wywiadu: str
-    opis_badania: str
-    zastosowane_leki: str
-    zalecenia: str
+    id_animal: int
+    owner_name: str
+    species: str
+    pet_name: str
+    breed: str
+    sex: str
+    coat: str
+    age: float
+    weight: float
+    interview_description: str
+    treatment_description: str
+    applied_medicines: str
+    recommendation: str
 
     def get_payload(self):
         return {
-            "imię": self.imię,
-            "rasa": self.rasa,
-            "płec": self.płec,
-            "wiek": self.wiek,
-            "maść": self.maść,
-            "waga": self.waga,
-            "opis_wywiadu": self.opis_wywiadu,
-            "opis_badania": self.opis_badania,
-            "zastosowane_leki": self.zastosowane_leki,
-            "zalecenia": self.zalecenia,
+            "id_animal": self.id_animal,
+            "owner_name": self.owner_name,
+            "species": self.species,
+            "pet_name": self.pet_name,
+            "breed": self.breed,
+            "sex": self.sex,
+            "coat": self.coat,
+            "age" : self.age,
+            "weight": self.weight,
+            "interview_description": self.interview_description,
+            "treatment_description": self.treatment_description,
+            "applied_medicines": self.applied_medicines,
+            "recommendation": self.recommendation,
         }
