@@ -28,6 +28,7 @@ mpmath==1.3.0
 multidict==6.7.0
 networkx==3.6
 numpy==2.2.6
+openai
 opencv-python==4.12.0.88
 packaging==25.0
 pillow==12.0.0
@@ -41,6 +42,7 @@ pydantic==2.12.5
 pydantic_core==2.41.5
 PyJWT==2.10.1
 pyparsing==3.2.5
+pypdf
 python-dateutil==2.9.0.post0
 python-multipart==0.0.20
 PyYAML==6.0.3
