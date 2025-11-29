@@ -48,5 +48,6 @@ def get_animals():
 
 
 # visit = get_test_visit()
-get_visits()
+a = get_animals()
+print(f"animals: {a}")
 # send_visit(visit)
