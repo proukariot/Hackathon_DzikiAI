@@ -24,7 +24,14 @@ SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
-app = FastAPI()
+app = FastAPI(
+    title="Pet Medical Extraction API",
+    description="API for extracting medical data from text/PDF and working with visits in Supabase.",
+    version="1.0.0",
+    docs_url="/docs",          # Swagger UI
+    redoc_url="/redoc",        # ReDoc docs
+    openapi_url="/openapi.json"
+)
 
 
 # ============================================================
@@ -66,8 +73,10 @@ def extract_from_text(text: str) -> dict:
         model=MODEL,
         response_format={"type": "json_object"},
         messages=[
-            {"role": "system",
-             "content": "Jesteś asystentem do ekstrakcji danych medycznych o zwierzętach."},
+            {
+                "role": "system",
+                "content": "Jesteś asystentem do ekstrakcji danych medycznych o zwierzętach.",
+            },
             {"role": "user", "content": prompt},
         ],
     )
@@ -85,7 +94,7 @@ def read_pdf_bytes(pdf_bytes: bytes) -> str:
     return text
 
 
-@app.post("/extract")
+@app.post("/extract", tags=["LLM"])
 async def extract_info(payload: TextInput):
     """
     LLM: Extract structured data from plain text.
@@ -93,7 +102,7 @@ async def extract_info(payload: TextInput):
     return extract_from_text(payload.text)
 
 
-@app.post("/extract_pdf")
+@app.post("/extract_pdf", tags=["LLM"])
 async def extract_info_from_pdf(file: UploadFile = File(...)):
     """
     LLM: Extract structured data from uploaded PDF file.
@@ -107,7 +116,7 @@ async def extract_info_from_pdf(file: UploadFile = File(...)):
 # 🟩 SQL PART – SUPABASE DATABASE OPERATIONS
 # ============================================================
 
-@app.post("/add_visit")
+@app.post("/add_visit", tags=["SQL"])
 def add_visit(visit: Visit):
     """
     SQL: Insert new visit into Supabase.
@@ -117,7 +126,7 @@ def add_visit(visit: Visit):
     return {"status": "ok", "data": result.data}
 
 
-@app.get("/visits")
+@app.get("/visits", tags=["SQL"])
 def get_all_visits():
     """
     SQL: Get all visits.
@@ -127,7 +136,7 @@ def get_all_visits():
     return result.data
 
 
-@app.get("/animals")
+@app.get("/animals", tags=["SQL"])
 def get_all_animals():
     """
     SQL: Get all animals.
@@ -141,6 +150,6 @@ def get_all_animals():
 # 🟧 HEALTH CHECK
 # ============================================================
 
-@app.get("/")
+@app.get("/", tags=["Health"])
 def health():
     return {"status": "ok"}
