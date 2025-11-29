@@ -5,10 +5,27 @@ import json
 import os
 from dotenv import load_dotenv
 
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+from supabase import create_client, Client
+#from consts import *
+# from visit import Visit
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
+app = FastAPI()
+
+
 load_dotenv()
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
-MODEL = "gpt-4.1"
+MODEL = "gpt-5.1"
 
 app = FastAPI()
 
@@ -66,6 +83,12 @@ async def extract_info(payload: TextInput):
 
     data = json.loads(response.choices[0].message.content)
     return data
+
+
+@app.get("/all_animals")
+def get_all():
+    result = supabase.table("animals").select("*").order("id_animal", desc=True).execute()
+    return result.data
 
 
 # run server:

@@ -47,7 +47,3 @@ def get_animals():
     return r.json()
 
 
-# visit = get_test_visit()
-a = get_animals()
-print(f"animals: {a}")
-# send_visit(visit)
