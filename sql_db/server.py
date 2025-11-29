@@ -15,14 +15,14 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 def add_visit(visit: Visit):
 
     payload = visit.get_payload()
-    result = supabase.table("wyzyta").insert(payload).execute()
+    result = supabase.table("visits").insert(payload).execute()
 
     return {"status": "ok", "data": result.data}
 
 
 @app.get("/all_visits")
 def get_all():
-    result = supabase.table("wyzyta").select("*").order("id", desc=True).execute()
+    result = supabase.table("visits").select("*").order("id_visit", desc=True).execute()
     return result.data
 
 
