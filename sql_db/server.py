@@ -20,7 +20,11 @@ def add_visit(visit: Visit):
     return {"status": "ok", "data": result.data}
 
 
-@app.get("/all")
+@app.get("/all_visits")
 def get_all():
-    result = supabase.table("messages").select("*").order("id", desc=True).execute()
+    result = supabase.table("wyzyta").select("*").order("id", desc=True).execute()
     return result.data
+
+
+# start server:
+# uvicorn server:app --reload --port 8000
