@@ -1,1 +1,6 @@
 sql_db/consts.py
+
+**/__pycache__/**
+
+*.pdf
+*.env
