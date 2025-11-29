@@ -1,5 +1,5 @@
 import requests
-from visit import Visit
+from sql_db.visit import Visit
 
 SERVER_URL = "http://localhost:8000"
 
@@ -39,12 +39,15 @@ def get_test_visit():
 
 def get_visits():
     r = requests.get(f"{SERVER_URL}/all_visits")
-    print(f"visits: {r.json()}")
-    print(f"status: {r.status_code}")
+    return r.json()
 
+
+def get_animals():
+    r = requests.get(f"{SERVER_URL}/all_animals")
     return r.json()
 
 
 # visit = get_test_visit()
-get_visits()
+a = get_animals()
+print(f"animals: {a}")
 # send_visit(visit)

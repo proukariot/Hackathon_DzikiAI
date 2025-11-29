@@ -1,9 +1,15 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from supabase import create_client, Client
-from consts import *
+#from consts import *
 from visit import Visit
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+SUPABASE_URL = os.getenv("SUPABASE_URL")
+SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
 app = FastAPI()
 
@@ -25,6 +31,11 @@ def get_all():
     result = supabase.table("visits").select("*").order("id_visit", desc=True).execute()
     return result.data
 
+
+@app.get("/all_animals")
+def get_all():
+    result = supabase.table("animals").select("*").order("id_animal", desc=True).execute()
+    return result.data
 
 # start server:
 # uvicorn server:app --reload --port 8000
