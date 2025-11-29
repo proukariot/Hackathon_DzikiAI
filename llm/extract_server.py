@@ -2,11 +2,12 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import openai
 import json
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-openai.api_key = "YOUR_OPENAI_API_KEY"
+openai.api_key = os.getenv("OPENAI_API_KEY")
 MODEL = "gpt-4.1"
 
 app = FastAPI()
