@@ -41,13 +41,8 @@ def summarize_vet_visit(transcription_json: dict) -> dict:
                 "schema": {
                     "type": "object",
                     "properties": {
-                        "objawy": {
-                            "type": "array",
-                            "items": {"type": "string"}
-                        },
-                        "od_kiedy_sie_dzieje": {
-                            "type": "string"
-                        },
+                        "objawy": {"type": "array", "items": {"type": "string"}},
+                        "od_kiedy_sie_dzieje": {"type": "string"},
                         "przyjmowane_leki": {
                             "type": "array",
                             "items": {
@@ -57,7 +52,7 @@ def summarize_vet_visit(transcription_json: dict) -> dict:
                                     "dawka": {"type": "string"},
                                     "czestotliwosc": {"type": "string"},
                                     "droga_podania": {"type": "string"},
-                                    "dodatkowe_uwagi": {"type": "string"}
+                                    "dodatkowe_uwagi": {"type": "string"},
                                 },
                                 # strict=True → required musi zawierać WSZYSTKIE klucze z properties
                                 "required": [
@@ -65,28 +60,26 @@ def summarize_vet_visit(transcription_json: dict) -> dict:
                                     "dawka",
                                     "czestotliwosc",
                                     "droga_podania",
-                                    "dodatkowe_uwagi"
+                                    "dodatkowe_uwagi",
                                 ],
-                                "additionalProperties": False
-                            }
+                                "additionalProperties": False,
+                            },
                         },
-                        "dodatkowe_informacje": {
-                            "type": "string"
-                        }
+                        "dodatkowe_informacje": {"type": "string"},
                     },
                     "required": [
                         "objawy",
                         "od_kiedy_sie_dzieje",
                         "przyjmowane_leki",
-                        "dodatkowe_informacje"
+                        "dodatkowe_informacje",
                     ],
-                    "additionalProperties": False
-                }
-            }
+                    "additionalProperties": False,
+                },
+            },
         },
         messages=[
             {"role": "system", "content": system_prompt},
-            {"role": "user",  "content": user_prompt},
+            {"role": "user", "content": user_prompt},
         ],
     )
 

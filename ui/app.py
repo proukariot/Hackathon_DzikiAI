@@ -1,10 +1,18 @@
+# TODO fix
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import streamlit as st
 import os
 import json
 import datetime
-from sql_db.client import get_animals
+
 from llm.transcription import transcribe_audio, save_transcription
 from llm.ai import summarize_vet_visit
+from clients.sql_client import get_animals
+from llm.transcription import save_transcription
 
 # -----------------------------------------------------------
 # 🌟 Wyróżniony nagłówek aplikacji
@@ -23,7 +31,7 @@ st.markdown(
         Inteligentny asystent gabinetu weterynaryjnego
     </p>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 # -----------------------------------------------------------
@@ -44,11 +52,15 @@ else:
     selected_owner = st.selectbox("Wybierz właściciela", owner_names)
 
     # Zwierzęta danego właściciela
-    animals_for_owner = [row for row in animals_data if row["owner_name"] == selected_owner]
+    animals_for_owner = [
+        row for row in animals_data if row["owner_name"] == selected_owner
+    ]
 
     # Wybór zwierzęcia
     animal_name_to_obj = {row["pet_name"]: row for row in animals_for_owner}
-    selected_animal_name = st.selectbox("Wybierz zwierzę", list(animal_name_to_obj.keys()))
+    selected_animal_name = st.selectbox(
+        "Wybierz zwierzę", list(animal_name_to_obj.keys())
+    )
 
     selected_animal = animal_name_to_obj.get(selected_animal_name)
 
@@ -91,7 +103,7 @@ st.markdown(
         <h3 style="margin-top: 0;">🎙️ Nagrywanie wizyty</h3>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 SAVE_DIR = "Recordings"
@@ -133,7 +145,9 @@ if audio_file:
             summary = summarize_vet_visit(transcription_json)
 
         except Exception:
-            st.error("Wystąpił problem podczas transkrypcji lub generowania podsumowania.")
+            st.error(
+                "Wystąpił problem podczas transkrypcji lub generowania podsumowania."
+            )
             summary = None
 
     # -----------------------------------------------------------
@@ -152,7 +166,7 @@ if audio_file:
             if objawy:
                 st.markdown(
                     "<ul>" + "".join([f"<li>{o}</li>" for o in objawy]) + "</ul>",
-                    unsafe_allow_html=True
+                    unsafe_allow_html=True,
                 )
             else:
                 st.markdown("_nie podano_")
@@ -177,7 +191,7 @@ if audio_file:
                         • uwagi: {med.get('dodatkowe_uwagi', 'nie podano')}
                         </div>
                         """,
-                        unsafe_allow_html=True
+                        unsafe_allow_html=True,
                     )
             else:
                 st.markdown("_nie podano_")
