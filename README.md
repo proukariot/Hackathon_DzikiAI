@@ -120,5 +120,11 @@ To run a more thorough test suite, convert these scripts to `pytest` format and 
 ## License
 
 No license is defined in the repository by default. If you are the project owner, add a `LICENSE` file with the appropriate terms.
- 
+
+## Authors
+- Raman Bylina: raman.bylina@gmail.com
+- Magdalena Sztuk: kimagdalenasztuk@gmail.com
+- Uladzimir Karaliou: vova@bessia.net
+- Stefan Marynowicz: marynowy4@gmail.com
+- Mateusz Kaźmierczak: mateusz.z.kazmierczak@gmail.com
  
