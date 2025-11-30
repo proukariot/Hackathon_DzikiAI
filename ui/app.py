@@ -1,7 +1,13 @@
+# TODO fix
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import streamlit as st
 import os
 import datetime
-from sql_db.client import get_animals
+from clients.sql_client import get_animals
 from llm.transcription import save_transcription
 
 
