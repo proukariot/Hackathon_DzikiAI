@@ -9,6 +9,7 @@ import os
 import json
 import datetime
 
+from clients.recommend_client import get_recommendation
 from llm.transcription import transcribe_audio, save_transcription
 from llm.ai import summarize_vet_visit
 from clients.sql_client import get_animals
@@ -279,6 +280,52 @@ if summary:
         st.markdown(f"**{summary.get('dodatkowe_informacje', 'nie podano')}**")
 
     st.caption("Automatycznie wygenerowane na podstawie nagranej rozmowy.")
+
+    with st.spinner("Przetwarzam rekomendacje..."):
+        try:
+            # Rekomendowane leki
+            st.markdown("### 💊 Rekomendowane leki")
+
+            interview_description = ",".join(objawy)
+            treatment_description = ",".join(leki)
+
+            rag_recommendation_str = get_recommendation(
+                interview_description, treatment_description
+            )
+            rag_recommendation = json.loads(rag_recommendation_str)
+            rekomendowane_leki = rag_recommendation.get("leki", [])
+            if rekomendowane_leki:
+                for med in rekomendowane_leki:
+                    st.markdown(
+                        f"""
+                        <div style="padding: 8px 12px; background:#e8f0fe; border-radius:8px; margin-bottom:8px;">
+                        <strong>{med.get('nazwa', 'nie podano')}</strong><br>
+                        • dawka: {med.get('dawka', 'nie podano')}<br>
+                        • częstotliwość: {med.get('czestotliwosc', 'nie podano')}<br>
+                        • droga podania: {med.get('droga_podania', 'nie podano')}<br>
+                        • uwagi: {med.get('dodatkowe_uwagi', 'nie podano')}
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+            else:
+                st.markdown("_nie podano_")
+
+            # Rekomendacje dotyczące leczenia
+            st.markdown("### 🩺 Rekomendacje dotyczące leczenia")
+            rekomendacje_terapia = rag_recommendation.get("zalecenia", "")
+            if rekomendacje_terapia:
+                # Łączymy elementy w jeden ciąg tekstu, oddzielony przecinkami
+                st.markdown(f"**{rekomendacje_terapia}**")
+            else:
+                st.markdown("_nie podano_")
+
+            st.caption(
+                "Automatycznie wygenerowane na podstawie traskrypcji i historyi leczenia."
+            )
+        except Exception:
+            st.error("Wystąpił problem podczas generowania rekomendacji.")
+
 elif audio_file and process_button:
     # tylko jeśli dopiero co próbowaliśmy coś przetworzyć
     st.info("Brak podsumowania do wyświetlenia.")

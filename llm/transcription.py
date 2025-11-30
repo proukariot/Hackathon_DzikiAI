@@ -27,6 +27,7 @@ Twoja odpowiedź to wyłącznie delikatnie oczyszczony tekst.
 Nic więcej.
 """
 
+
 def _clean_transcription(raw_text: str) -> str:
     response = client.chat.completions.create(
         model="gpt-4o-mini",
@@ -49,9 +50,7 @@ def transcribe_audio(file_path: str) -> dict:
     # === WHISPER ===
     with open(file_path, "rb") as f:
         transcription = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=f,
-            language="pl"
+            model="whisper-1", file=f, language="pl"
         )
 
     raw_text = transcription.text
@@ -69,7 +68,9 @@ def transcribe_audio(file_path: str) -> dict:
     }
 
 
-def save_transcription(transcription_json: dict, output_dir: str = "Transcriptions") -> str:
+def save_transcription(
+    transcription_json: dict, output_dir: str = "Transcriptions"
+) -> str:
     """
     Zapisuje cały obiekt transkrypcji do JSON.
     """
