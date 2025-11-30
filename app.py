@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 import datetime
-from sql_db.client import get_animals
+from clients.sql_client import get_animals
 from llm.transcription import save_transcription
 
 
