@@ -293,7 +293,7 @@ if summary:
                 interview_description, treatment_description
             )
             rag_recommendation = json.loads(rag_recommendation_str)
-            rekomendowane_leki = rag_recommendation.get("leki", [])
+            rekomendowane_leki = rag_recommendation.get("Leki", [])
             if rekomendowane_leki:
                 for med in rekomendowane_leki:
                     st.markdown(
@@ -313,7 +313,7 @@ if summary:
 
             # Rekomendacje dotyczące leczenia
             st.markdown("### 🩺 Rekomendacje dotyczące leczenia")
-            rekomendacje_terapia = rag_recommendation.get("zalecenia", "")
+            rekomendacje_terapia = rag_recommendation.get("Zalecenia", "")
             if rekomendacje_terapia:
                 # Łączymy elementy w jeden ciąg tekstu, oddzielony przecinkami
                 st.markdown(f"**{rekomendacje_terapia}**")

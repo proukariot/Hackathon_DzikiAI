@@ -98,8 +98,17 @@ def generate_prompt_for_new_visit(
     for i, info in enumerate(similar_visits_info, 1):
         prompt += f"{i}. Leki: {info['applied_medicines']}, Zalecenia: {info['recommendation']}\n"
 
-    prompt += "\nNa podstawie tych przykładów, wygeneruj zalecenia i przepisz leki dla nowej wizyty."
+    prompt += """
+        Na podstawie tych przykładów wygeneruj zalecenia i przepisz leki dla nowej wizyty.
 
+        ZWRÓĆ ODPOWIEDŹ WYŁĄCZNIE W POSTACI TEGO JSONA (BEZ KOMENTARZY, BEZ TEKSTU DOOKOŁA):
+
+        {
+        "Leki": "",
+        "Zalecenia": ""
+        }
+    """
+    
     return prompt
 
 
