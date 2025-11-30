@@ -1,5 +1,6 @@
-sql_db/consts.py
+.vscode/settings.json
 
+Transcriptions/**
 **/__pycache__/**
 **/data/**
 

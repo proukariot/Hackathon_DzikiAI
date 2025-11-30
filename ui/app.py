@@ -1,11 +1,17 @@
+# TODO fix
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 import streamlit as st
 import os
 import json
 import datetime
-from sql_db.client import get_animals
-from llm.ai import summarize_vet_visit
 
 from llm.transcription import transcribe_audio, save_transcription
+from llm.ai import summarize_vet_visit
+from clients.sql_client import get_animals
 
 
 # -----------------------------------------------------------
@@ -25,7 +31,7 @@ st.markdown(
         Inteligentny asystent gabinetu weterynaryjnego
     </p>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 # -----------------------------------------------------------
@@ -55,10 +61,14 @@ if not animals_data:
 else:
     # Wybór właściciela
     owner_names = sorted(list({row["owner_name"] for row in animals_data}))
-    selected_owner = st.selectbox("Wybierz właściciela", owner_names, placeholder="Wybierz z listy")
+    selected_owner = st.selectbox(
+        "Wybierz właściciela", owner_names, placeholder="Wybierz z listy"
+    )
 
     # Zwierzęta danego właściciela
-    animals_for_owner = [row for row in animals_data if row["owner_name"] == selected_owner]
+    animals_for_owner = [
+        row for row in animals_data if row["owner_name"] == selected_owner
+    ]
 
     if animals_for_owner:
         # Wybór zwierzęcia
@@ -66,7 +76,7 @@ else:
         selected_animal_name = st.selectbox(
             "Wybierz zwierzę",
             list(animal_name_to_obj.keys()),
-            placeholder="Wybierz pacjenta"
+            placeholder="Wybierz pacjenta",
         )
 
         selected_animal = animal_name_to_obj.get(selected_animal_name)
@@ -115,7 +125,7 @@ st.markdown(
         <p style="margin: 0;">Nagraj rozmowę z opiekunem, a asystent automatycznie przygotuje notatkę z wizyty.</p>
     </div>
     """,
-    unsafe_allow_html=True
+    unsafe_allow_html=True,
 )
 
 SAVE_DIR = "Recordings"
@@ -126,19 +136,20 @@ os.makedirs(TRANS_DIR, exist_ok=True)
 audio_file = st.audio_input("Kliknij, aby rozpocząć nagrywanie")
 
 # Przycisk do ręcznego uruchamiania transkrypcji
-process_button = st.button(
-    "🔄 Przetwórz nagranie",
-    disabled=audio_file is None
-)
+process_button = st.button("🔄 Przetwórz nagranie", disabled=audio_file is None)
 
 if audio_file is None:
-    st.caption("Najpierw nagraj lub wgraj plik audio, a następnie kliknij „Przetwórz nagranie”.")
+    st.caption(
+        "Najpierw nagraj lub wgraj plik audio, a następnie kliknij „Przetwórz nagranie”."
+    )
 
 if process_button:
     if audio_file is None:
         st.warning("Najpierw nagraj lub wybierz plik audio.")
     elif selected_animal is None:
-        st.warning("Najpierw wybierz pacjenta, aby powiązać nagranie z właściwym zwierzęciem.")
+        st.warning(
+            "Najpierw wybierz pacjenta, aby powiązać nagranie z właściwym zwierzęciem."
+        )
     else:
         # Podgląd nagrania
         st.audio(audio_file)
@@ -182,10 +193,14 @@ if process_button:
                     summary = summarize_vet_visit(tekst_do_podsumowania)
                     st.session_state.summary = summary
                 else:
-                    st.warning("Transkrypcja jest pusta – nie udało się wygenerować podsumowania.")
+                    st.warning(
+                        "Transkrypcja jest pusta – nie udało się wygenerować podsumowania."
+                    )
 
             except Exception as e:
-                st.error("Wystąpił problem podczas transkrypcji lub generowania podsumowania.")
+                st.error(
+                    "Wystąpił problem podczas transkrypcji lub generowania podsumowania."
+                )
                 st.caption(f"Szczegóły techniczne (dla developera): {e}")
                 st.session_state.summary = None
 
@@ -230,7 +245,7 @@ if summary:
         if objawy:
             st.markdown(
                 "<ul>" + "".join([f"<li>{o}</li>" for o in objawy]) + "</ul>",
-                unsafe_allow_html=True
+                unsafe_allow_html=True,
             )
         else:
             st.markdown("_nie podano_")
@@ -255,7 +270,7 @@ if summary:
                     • uwagi: {med.get('dodatkowe_uwagi', 'nie podano')}
                     </div>
                     """,
-                    unsafe_allow_html=True
+                    unsafe_allow_html=True,
                 )
         else:
             st.markdown("_nie podano_")
