@@ -7,13 +7,11 @@ from dotenv import load_dotenv
 load_dotenv()
 client = OpenAI()
 
+
 def transcribe_audio(file_path: str) -> str:
     """Wysyła nagranie do Whisper i zwraca tekst."""
     with open(file_path, "rb") as f:
-        transcription = client.audio.transcriptions.create(
-            model="whisper-1",
-            file=f
-        )
+        transcription = client.audio.transcriptions.create(model="whisper-1", file=f)
     return transcription.text
 
 
