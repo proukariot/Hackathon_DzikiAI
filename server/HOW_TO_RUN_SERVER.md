@@ -24,7 +24,8 @@ Place this file next to the `Dockerfile`.
 Run in the terminal inside the project folder:
 
 ```bash
-docker build -t pet-extractor .
+docker build -f server/Dockerfile -t pet-extractor . 
+# docker build -t pet-extractor .
 ```
 
 ---

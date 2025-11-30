@@ -1,5 +1,5 @@
 import requests
-from sql_db.visit import Visit
+from Hackathon_DzikiAI.schemas.visit import Visit
 
 SERVER_URL = "http://localhost:8000"
 
@@ -19,19 +19,19 @@ def get_messages():
 
 def get_test_visit():
     visit = Visit(
-        id_animal = 1,
-        owner_name ="Jan Nowak",
-        pet_name = "Burek",
-        breed = "mieszany",
-        species = "pies",
-        age = 7,
-        sex = "samiec",
-        coat = "rudy",
-        weight = "10",
-        interview_description = "opis_wywiadu",
-        treatment_description = "opis_badania",
-        applied_medicines = "zastosowane leki",
-        recommendation = "zalecenia",
+        id_animal=1,
+        owner_name="Jan Nowak",
+        pet_name="Burek",
+        breed="mieszany",
+        species="pies",
+        age=7,
+        sex="samiec",
+        coat="rudy",
+        weight="10",
+        interview_description="opis_wywiadu",
+        treatment_description="opis_badania",
+        applied_medicines="zastosowane leki",
+        recommendation="zalecenia",
     )
 
     return visit
