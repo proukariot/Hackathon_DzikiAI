@@ -6,7 +6,8 @@ import json
 from openai import OpenAI
 import pickle
 
-from rag_consts import *
+
+from llm.rag.rag_consts import *
 
 
 def get_embedding(client, text):

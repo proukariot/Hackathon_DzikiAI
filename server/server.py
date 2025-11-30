@@ -9,7 +9,9 @@ from pypdf import PdfReader
 import openai
 
 from supabase import create_client, Client
+
 from schemas.visit import Visit
+from llm.rag.vector_db import get_recommendations
 
 # -----------------------
 # Config
@@ -41,6 +43,11 @@ app = FastAPI(
 
 class TextInput(BaseModel):
     text: str
+
+
+class RecommendationRequest(BaseModel):
+    interview_description: str
+    treatment_description: str
 
 
 def build_prompt(text: str) -> str:
@@ -111,6 +118,21 @@ async def extract_info_from_pdf(file: UploadFile = File(...)):
     pdf_bytes = await file.read()
     pdf_text = read_pdf_bytes(pdf_bytes)
     return extract_from_text(pdf_text)
+
+
+@app.post("/get_recommendation", tags=["LLM"])
+async def get_recommendation(request: RecommendationRequest):
+    """
+    LLM: Get recommendation with RAG
+    """
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    print(OPENAI_API_KEY)
+    rec_data = get_recommendations(
+        request.interview_description,
+        request.treatment_description,
+        api_key=OPENAI_API_KEY,
+    )
+    return rec_data
 
 
 # ============================================================
