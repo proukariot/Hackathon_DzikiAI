@@ -11,10 +11,13 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy project files
-COPY . .
+COPY server/ server/
+COPY schemas/ schemas/
+COPY .env .
+
 
 # Expose FastAPI port
 EXPOSE 8000
 
 # Run server
-CMD ["uvicorn", "llm.server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server.server:app", "--host", "0.0.0.0", "--port", "8000"]

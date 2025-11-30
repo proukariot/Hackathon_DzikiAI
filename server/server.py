@@ -9,7 +9,7 @@ from pypdf import PdfReader
 import openai
 
 from supabase import create_client, Client
-from sql_db.visit import Visit
+from schemas.visit import Visit
 
 # -----------------------
 # Config
@@ -28,15 +28,16 @@ app = FastAPI(
     title="Pet Medical Extraction API",
     description="API for extracting medical data from text/PDF and working with visits in Supabase.",
     version="1.0.0",
-    docs_url="/docs",          # Swagger UI
-    redoc_url="/redoc",        # ReDoc docs
-    openapi_url="/openapi.json"
+    docs_url="/docs",  # Swagger UI
+    redoc_url="/redoc",  # ReDoc docs
+    openapi_url="/openapi.json",
 )
 
 
 # ============================================================
 # 🟦 LLM PART – TEXT & PDF EXTRACTION
 # ============================================================
+
 
 class TextInput(BaseModel):
     text: str
@@ -116,6 +117,7 @@ async def extract_info_from_pdf(file: UploadFile = File(...)):
 # 🟩 SQL PART – SUPABASE DATABASE OPERATIONS
 # ============================================================
 
+
 @app.post("/add_visit", tags=["SQL"])
 def add_visit(visit: Visit):
     """
@@ -131,8 +133,7 @@ def get_all_visits():
     """
     SQL: Get all visits.
     """
-    result = supabase.table("visits").select(
-        "*").order("id_visit", desc=True).execute()
+    result = supabase.table("visits").select("*").order("id_visit", desc=True).execute()
     return result.data
 
 
@@ -141,14 +142,16 @@ def get_all_animals():
     """
     SQL: Get all animals.
     """
-    result = supabase.table("animals").select(
-        "*").order("id_animal", desc=True).execute()
+    result = (
+        supabase.table("animals").select("*").order("id_animal", desc=True).execute()
+    )
     return result.data
 
 
 # ============================================================
 # 🟧 HEALTH CHECK
 # ============================================================
+
 
 @app.get("/", tags=["Health"])
 def health():
