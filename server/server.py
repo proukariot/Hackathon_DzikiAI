@@ -126,7 +126,6 @@ async def get_recommendation(request: RecommendationRequest):
     LLM: Get recommendation with RAG
     """
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    print(OPENAI_API_KEY)
     rec_data = get_recommendations(
         request.interview_description,
         request.treatment_description,
